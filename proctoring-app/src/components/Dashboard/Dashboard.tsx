@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useProctoring } from '../../hooks/useProctoring';
-import { AIEngine, DetectionResult } from '../../utils/ai-engine';
+import { AIEngine, type DetectionResult } from '../../utils/ai-engine';
 import { AudioEngine } from '../../utils/audio-engine';
-import { Shield, AlertTriangle, Mic, Video, Monitor, Phone } from 'lucide-react';
+import { AlertTriangle, Mic, Video } from 'lucide-react';
 import '../../styles/dashboard.css';
 
 export const Dashboard: React.FC = () => {

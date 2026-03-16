@@ -38,7 +38,7 @@ export class AudioEngine {
     if (!this.analyser || !this.dataArray) return;
 
     this.analyser.getByteFrequencyData(this.dataArray);
-    this.onData(this.dataArray);
+    this.onData(this.dataArray as Uint8Array);
 
     const average = this.dataArray.reduce((a, b) => a + b) / this.dataArray.length;
     
