@@ -1,15 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useProctoringContext } from '../context/ProctoringContext';
 import { Trophy, AlertTriangle, Clock, RefreshCcw, FileText, CheckCircle } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export const Report: React.FC = () => {
-  const { user, violations, trustScore, startTime, resetSession } = useProctoringContext();
+  const { user, violations, trustScore, startTime, endTime, resetSession } = useProctoringContext();
   
-  const duration = startTime ? Math.floor((Date.now() - startTime) / 1000) : 0;
-  const minutes = Math.floor(duration / 60);
-  const seconds = duration % 60;
+  const { minutes, seconds } = useMemo(() => {
+    const duration = (startTime && endTime) ? Math.floor((endTime - startTime) / 1000) : 0;
+    return {
+      minutes: Math.floor(duration / 60),
+      seconds: duration % 60
+    };
+  }, [startTime, endTime]);
 
   useEffect(() => {
     if (trustScore > 80) {
@@ -22,14 +26,12 @@ export const Report: React.FC = () => {
     }
   }, [trustScore]);
 
-  const getVerdict = () => {
+  const verdict = useMemo(() => {
     if (trustScore >= 90) return { label: 'Excellent Integrity', color: '#10b981', desc: 'No significant suspicious behavior detected.' };
     if (trustScore >= 70) return { label: 'Good Integrity', color: '#3b82f6', desc: 'Minor warnings issued but overall compliant.' };
     if (trustScore >= 50) return { label: 'Needs Review', color: '#f59e0b', desc: 'Multiple violations detected. Subject to manual review.' };
     return { label: 'Integrity Failed', color: '#ef4444', desc: 'Serious proctoring violations detected. Action required.' };
-  };
-
-  const verdict = getVerdict();
+  }, [trustScore]);
 
   return (
     <div className="report-screen" style={{
