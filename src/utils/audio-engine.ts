@@ -48,8 +48,8 @@ export class AudioEngine {
   private monitor() {
     if (!this.analyser || !this.dataArray) return;
 
-    // Use any cast to resolve SharedArrayBuffer vs ArrayBuffer incompatibility in some environments
-    this.analyser.getByteFrequencyData(this.dataArray as any);
+    // Use unknown cast then any for mandatory low-level buffer compatibility
+    this.analyser.getByteFrequencyData(this.dataArray as unknown as Uint8Array);
     this.onData(this.dataArray);
 
     let max = 0;

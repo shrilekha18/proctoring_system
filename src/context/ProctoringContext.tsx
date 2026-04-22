@@ -201,6 +201,7 @@ export const ProctoringProvider: React.FC<{ children: ReactNode }> = ({ children
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useProctoringContext = () => {
   const context = useContext(ProctoringContext);
   if (context === undefined) throw new Error('useProctoringContext must be used within a ProctoringProvider');
